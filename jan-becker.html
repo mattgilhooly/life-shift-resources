@@ -748,7 +748,7 @@ footer {
       <p class="eyebrow">Social Media</p>
       <h2 class="section-title">Ready to share</h2>
     </div>
-    <div class="captions-list" id="captions">
+    <div class="captions-list" id="captions-list">
       <!-- filled by script -->
     </div>
   </div>
@@ -763,7 +763,7 @@ footer {
       <p class="eyebrow">From Your Conversation</p>
       <h2 class="section-title">Your words</h2>
     </div>
-    <div class="quotes-list" id="quotes">
+    <div class="quotes-list" id="quotes-list">
       <!-- filled by script -->
     </div>
   </div>
@@ -908,7 +908,7 @@ if (EPISODE.artwork) {
 }
 
 // Render captions
-const captionsEl = document.getElementById('captions');
+const captionsEl = document.getElementById('captions-list');
 EPISODE.captions.forEach((text, i) => {
   const card = document.createElement('div');
   card.className = 'caption-card';
@@ -922,7 +922,7 @@ EPISODE.captions.forEach((text, i) => {
 });
 
 // Render quotes
-const quotesEl = document.getElementById('quotes');
+const quotesEl = document.getElementById('quotes-list');
 EPISODE.quotes.forEach(text => {
   const q = document.createElement('blockquote');
   q.className = 'quote-card';
