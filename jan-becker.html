@@ -550,6 +550,84 @@ footer {
 }
 .footer-links a:hover { color: var(--fg-muted); }
 
+/* ── Subnav ─────────────────────────────────────────────────────────────────── */
+.subnav {
+  position: sticky;
+  top: 53px; /* below main nav */
+  z-index: 9;
+  background: rgba(7,10,12,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.subnav::-webkit-scrollbar { display: none; }
+.subnav-inner {
+  display: flex;
+  gap: 0;
+  padding-inline: clamp(16px, 5vw, 48px);
+}
+.subnav-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  text-decoration: none;
+  padding: 12px 16px;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  border-bottom: 2px solid transparent;
+  display: block;
+}
+.subnav-link:hover { color: var(--fg-muted); text-decoration: none; border-bottom-color: var(--border); }
+.subnav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Artwork featured card ──────────────────────────────────────────────────── */
+.artwork-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.artwork-card:hover { border-color: var(--border); }
+.artwork-img {
+  width: clamp(100px, 15vw, 160px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+.artwork-img-placeholder {
+  width: clamp(100px, 15vw, 160px);
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--bg2) 0%, rgba(143,244,255,0.06) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 28px; color: var(--fg-dim);
+  flex-shrink: 0;
+}
+.artwork-info {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.artwork-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; color: var(--fg);
+}
+.artwork-subtitle {
+  font-size: 13px; color: var(--fg-muted); line-height: 1.5; margin-bottom: 8px;
+}
+
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 680px) {
   .hero-inner { grid-template-columns: 1fr; }
@@ -559,6 +637,9 @@ footer {
   .about-grid { grid-template-columns: 1fr; gap: 32px; }
   .footer-inner { flex-direction: column; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
+  .artwork-card { grid-template-columns: 1fr; }
+  .artwork-img, .artwork-img-placeholder { width: 100%; aspect-ratio: 16/7; border-radius: 0; }
+  .subnav-link { padding: 10px 12px; font-size: 9px; }
 }
 </style>
 </head>
@@ -569,6 +650,18 @@ footer {
   <div class="container nav-inner">
     <a href="https://www.thelifeshiftpodcast.com" class="nav-brand">THE LIFE <span>SHIFT</span></a>
     <span class="nav-episode">S5 · E287</span>
+  </div>
+</nav>
+
+<!-- Subnav -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a class="subnav-link" href="#listen">Listen</a>
+    <a class="subnav-link" href="#portrait">Energy Portrait</a>
+    <a class="subnav-link" href="#captions">Captions</a>
+    <a class="subnav-link" href="#quotes">Quotes</a>
+    <a class="subnav-link" href="#downloads">Downloads</a>
+    <a class="subnav-link" href="#connect">Connect</a>
   </div>
 </nav>
 
@@ -604,7 +697,7 @@ footer {
 <div class="divider"></div>
 
 <!-- Listen Section -->
-<section class="section">
+<section class="section" id="listen">
   <div class="container">
     <div class="section-header">
       <p class="eyebrow">Listen</p>
@@ -632,7 +725,7 @@ footer {
 <div class="divider"></div>
 
 <!-- Energy Portrait -->
-<section class="section">
+<section class="section" id="portrait">
   <div class="container">
     <div class="section-header">
       <p class="eyebrow">Energy Portrait</p>
@@ -647,7 +740,7 @@ footer {
 <div class="divider"></div>
 
 <!-- Captions -->
-<section class="section">
+<section class="section" id="captions">
   <div class="container">
     <div class="section-header">
       <p class="eyebrow">Social Media</p>
@@ -662,7 +755,7 @@ footer {
 <div class="divider"></div>
 
 <!-- Quotes -->
-<section class="section">
+<section class="section" id="quotes">
   <div class="container">
     <div class="section-header">
       <p class="eyebrow">From Your Conversation</p>
@@ -677,12 +770,15 @@ footer {
 <div class="divider"></div>
 
 <!-- Resources -->
-<section class="section">
+<section class="section" id="downloads">
   <div class="container">
     <div class="section-header">
       <p class="eyebrow">Downloads</p>
       <h2 class="section-title">Your assets</h2>
     </div>
+    <!-- Artwork card (rendered by script from EPISODE.artwork) -->
+    <div id="artwork-card-container"></div>
+
     <div class="resources-grid">
       <div class="resource-card">
         <div class="resource-icon">🎙️</div>
@@ -704,12 +800,12 @@ footer {
 <div class="divider"></div>
 
 <!-- About the Show -->
-<section class="section">
+<section class="section" id="connect">
   <div class="container">
     <div class="about-grid">
       <div>
         <p class="eyebrow" style="margin-bottom:16px">The Life Shift Podcast</p>
-        <h2 class="section-title" style="margin-bottom:16px">Find us everywhere</h2>
+        <h2 class="section-title" style="margin-bottom:16px">Find me everywhere</h2>
         <p style="font-size:14px;color:var(--fg-muted);line-height:1.7;max-width:44ch;margin-bottom:24px">Stories about the moments that change everything. New episodes every week.</p>
         <ul class="social-list">
           <li><a href="https://www.instagram.com/thelifeshiftpodcast" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg><span class="social-handle">@thelifeshiftpodcast</span></a></li>
@@ -731,7 +827,7 @@ footer {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.856.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 01-.277-1.215c3.809-.87 7.076-.496 9.712 1.116a.622.622 0 01.206.856zm1.223-2.723a.778.778 0 01-1.07.257c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 01-.966-.519.777.777 0 01.519-.966c3.632-1.102 8.147-.568 11.225 1.324a.778.778 0 01.257 1.07zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.934.934 0 11-.543-1.788c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 01-.954 1.606z"/></svg>
               <span class="eyebrow">Episode Playlist</span>
             </div>
-            <iframe style="border-radius:0" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX5trt9i14X7j?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <iframe style="border-radius:0" src="https://open.spotify.com/embed/playlist/4qA7w6wA8e4fmBzCxYfLEV?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </div>
       </div>
@@ -746,7 +842,7 @@ footer {
   <div class="container">
     <div class="review-inner">
       <p class="eyebrow">One small ask</p>
-      <h2 class="review-title">Leave us a review on Apple Podcasts</h2>
+      <h2 class="review-title">Leave a review on Apple Podcasts</h2>
       <p class="review-body">If our conversation meant something to you, a quick review helps The Life Shift reach the people who need it most. It takes about two minutes and makes a real difference.</p>
       <a href="https://podcasts.apple.com/us/podcast/the-life-shift/id1613618660" target="_blank" class="btn btn-primary" style="font-size:15px;padding:13px 30px">Leave a Review</a>
     </div>
@@ -767,6 +863,7 @@ footer {
 <script>
 const EPISODE = {
   guest: "Jan Becker",
+  artwork: "", // paste megaphone.imgix.net cover art URL here
   captions: [
     "I sat down with Matt on The Life Shift Podcast to talk about the hardest year of my life. My close friend Christian and I had just finished shooting a documentary together, and weeks later he died in a plane crash with his two young daughters. I spent the next year editing the film, with his face on my screen every single day. I am sharing this because grief takes strange and sometimes beautiful shapes, and mine took the shape of finishing what we started. Listen at https://www.thelifeshiftpodcast.com/s5e287?utm_source=guest&utm_medium=referral&utm_campaign=ep287",
     "People sometimes ask me how I got through making Vision Quest after Christian died. The honest answer is that the film got me through it. On The Life Shift Podcast I talked with Matt about what it felt like to edit footage of someone I loved and lost, and why finishing it became the only way forward I could find. If you have ever carried someone by carrying their unfinished work, this one is for you. Listen at https://www.thelifeshiftpodcast.com/s5e287?utm_source=guest&utm_medium=referral&utm_campaign=ep287",
@@ -782,6 +879,31 @@ const EPISODE = {
     "My approach to action is different now, because that one film was a very purposeful action. It had real meaning. Now I have an allergy against BS. I want to do things that mean something, that are authentic and real, and that touch people's heart."
   ]
 };
+
+// Render artwork card
+const artworkContainer = document.getElementById('artwork-card-container');
+if (EPISODE.artwork) {
+  artworkContainer.innerHTML = `
+    <div class="artwork-card">
+      <img class="artwork-img" src="${EPISODE.artwork}" alt="${EPISODE.guest} episode cover art" loading="lazy">
+      <div class="artwork-info">
+        <div class="artwork-title">Episode Cover Art</div>
+        <div class="artwork-subtitle">The official cover art for this episode, sized for all podcast platforms and social media.</div>
+        <a href="${EPISODE.artwork}" target="_blank" rel="noopener" class="btn btn-ghost" style="width:fit-content">Download Artwork</a>
+      </div>
+    </div>
+  `;
+} else {
+  artworkContainer.innerHTML = `
+    <div class="artwork-card">
+      <div class="artwork-img-placeholder">🎨</div>
+      <div class="artwork-info">
+        <div class="artwork-title">Episode Cover Art</div>
+        <div class="artwork-subtitle">Cover art URL not yet set. Add it to the <code>EPISODE.artwork</code> field in the page source.</div>
+      </div>
+    </div>
+  `;
+}
 
 // Render captions
 const captionsEl = document.getElementById('captions');
@@ -805,6 +927,18 @@ EPISODE.quotes.forEach(text => {
   q.innerHTML = `<span class="quote-mark" aria-hidden="true">"</span><p class="quote-text">"${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</p>`;
   quotesEl.appendChild(q);
 });
+
+// Subnav active state on scroll
+const subnavLinks = document.querySelectorAll('.subnav-link');
+const sections = Array.from(subnavLinks).map(l => document.querySelector(l.getAttribute('href')));
+const onScroll = () => {
+  const y = window.scrollY + 120;
+  let active = 0;
+  sections.forEach((s, i) => { if (s && s.offsetTop <= y) active = i; });
+  subnavLinks.forEach((l, i) => l.classList.toggle('active', i === active));
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
 // Copy buttons
 document.addEventListener('click', async (e) => {
