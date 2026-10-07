@@ -358,6 +358,55 @@ body::before {
   border-color: var(--accent);
 }
 
+/* ── Embed code blocks ─────────────────────────────────────────────────────── */
+.embed-codes { display: flex; flex-direction: column; gap: 16px; }
+.embed-codes .section-header { align-self: stretch; }
+.code-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.code-copy-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.code-copy-btn:hover, .code-copy-btn.copied {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.code-block {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: rgba(0,0,0,0.25);
+}
+
 /* ── Quotes ────────────────────────────────────────────────────────────────── */
 .quotes-list {
   display: flex;
@@ -722,6 +771,35 @@ footer {
         <iframe style="border-radius:0" src="https://open.spotify.com/embed/episode/1TuPFPDsvWk7xh4rkmI6Vs?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </div>
+
+    <div class="embed-codes">
+      <div class="section-header" style="margin-top:40px;margin-bottom:20px">
+        <p class="eyebrow">Embed Codes</p>
+        <h2 class="section-title">Put it on your website</h2>
+        <p style="font-size:14px;color:var(--fg-muted);margin-top:8px;max-width:56ch">Copy any of these and paste it into your site's HTML or an embed block to show the episode player.</p>
+      </div>
+      <div class="code-card">
+        <div class="code-head">
+          <span class="eyebrow">Apple Podcasts</span>
+          <button class="code-copy-btn" type="button" data-target="code-apple">Copy code</button>
+        </div>
+        <pre class="code-block"><code id="code-apple">&lt;iframe allow=&quot;autoplay *; encrypted-media *; fullscreen *; clipboard-write&quot; frameborder=&quot;0&quot; height=&quot;175&quot; style=&quot;width:100%;max-width:660px;overflow:hidden;border-radius:10px;&quot; sandbox=&quot;allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation&quot; src=&quot;https://embed.podcasts.apple.com/us/podcast/coming-out-as-a-trans-woman-at-45-the-filter/id1613618660?i=1000793642327&quot;&gt;&lt;/iframe&gt;</code></pre>
+      </div>
+      <div class="code-card">
+        <div class="code-head">
+          <span class="eyebrow">Spotify</span>
+          <button class="code-copy-btn" type="button" data-target="code-spotify">Copy code</button>
+        </div>
+        <pre class="code-block"><code id="code-spotify">&lt;iframe style=&quot;border-radius:12px&quot; src=&quot;https://open.spotify.com/embed/episode/1TuPFPDsvWk7xh4rkmI6Vs?utm_source=generator&quot; width=&quot;100%&quot; height=&quot;152&quot; frameBorder=&quot;0&quot; allowfullscreen=&quot;&quot; allow=&quot;autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;</code></pre>
+      </div>
+      <div class="code-card">
+        <div class="code-head">
+          <span class="eyebrow">YouTube</span>
+          <button class="code-copy-btn" type="button" data-target="code-youtube">Copy code</button>
+        </div>
+        <pre class="code-block"><code id="code-youtube">&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/cEgLWrpQ_Ew&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;</code></pre>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -964,6 +1042,25 @@ document.addEventListener('click', async (e) => {
     // Fallback: select text
     const range = document.createRange();
     range.selectNodeContents(btn.closest('.caption-card').querySelector('.caption-text'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  }
+});
+
+// Embed code copy buttons
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.code-copy-btn');
+  if (!btn) return;
+  const el = document.getElementById(btn.dataset.target);
+  const text = el.textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy code'; btn.classList.remove('copied'); }, 2000);
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents(el);
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range);
   }
