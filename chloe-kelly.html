@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Chloe Kelly · Life Shift Resource Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+/* Single dark theme — cinematic, matches the energy portrait aesthetic */
+:root {
+  /* Palette */
+  --bg:           #070a0c;
+  --bg2:          #0c1418;
+  --surface:      rgba(12, 20, 26, 0.7);
+  --border:       rgba(143, 244, 255, 0.12);
+  --border-soft:  rgba(255,255,255,0.06);
+  --fg:           #e8ede9;
+  --fg-muted:     #9fb0b3;
+  --fg-dim:       #4a6068;
+  --accent:       #8ff4ff;
+  --accent-glow:  rgba(143, 244, 255, 0.18);
+  --accent-text:  #061518;
+  --quote-stripe: rgba(143, 244, 255, 0.25);
+
+  /* Typography */
+  --font-display: 'Fredoka', sans-serif;
+  --font-body:    'Outfit', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+
+  color-scheme: dark;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Grain overlay ─────────────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+}
+
+/* ── Layout helpers ────────────────────────────────────────────────────────── */
+.container {
+  max-width: 960px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 48px);
+  position: relative;
+  z-index: 1;
+}
+.wide { max-width: 1100px; }
+
+/* ── Eyebrow label ─────────────────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ── Nav ───────────────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: rgba(7, 10, 12, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+  padding-block: 14px;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-brand:hover { text-decoration: none; }
+.nav-brand span { color: var(--accent); }
+.nav-episode {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+.hero {
+  padding-block: clamp(56px, 10vw, 100px) clamp(48px, 8vw, 80px);
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(50, 120, 140, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(32px, 6vw, 64px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.hero-text .eyebrow { margin-bottom: 18px; }
+.hero-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(44px, 8vw, 80px);
+  line-height: 1.0;
+  color: #fff;
+  text-wrap: balance;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.6);
+  margin-bottom: 14px;
+}
+.hero-title {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(14px, 2.2vw, 18px);
+  color: var(--fg-muted);
+  max-width: 52ch;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+.hero-desc {
+  font-size: clamp(14px, 1.8vw, 16px);
+  color: var(--fg-muted);
+  max-width: 56ch;
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  cursor: pointer;
+  border: none;
+  letter-spacing: 0.02em;
+}
+.btn:hover { transform: translateY(-1px); text-decoration: none; }
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-text);
+  box-shadow: 0 0 28px -6px rgba(143, 244, 255, 0.55);
+}
+.btn-primary:hover { box-shadow: 0 0 36px -4px rgba(143, 244, 255, 0.8); }
+.btn-ghost {
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(4px);
+}
+.btn-ghost:hover { border-color: rgba(143, 244, 255, 0.3); }
+
+.hero-photo {
+  width: clamp(160px, 22vw, 240px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  box-shadow: 0 0 60px -10px rgba(143, 244, 255, 0.2);
+  flex-shrink: 0;
+  background: var(--bg2);
+}
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.hero-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--fg-dim);
+  background: radial-gradient(ellipse at center, rgba(143,244,255,0.05) 0%, transparent 70%);
+}
+
+/* ── Divider ───────────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  margin: 0;
+}
+
+/* ── Section ───────────────────────────────────────────────────────────────── */
+.section {
+  padding-block: clamp(48px, 7vw, 80px);
+}
+.section-header {
+  margin-bottom: 32px;
+}
+.section-header .eyebrow { margin-bottom: 8px; }
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* ── Listen cards ──────────────────────────────────────────────────────────── */
+.listen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.embed-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+.embed-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border-bottom: 1px solid var(--border-soft);
+}
+.embed-label svg { flex-shrink: 0; }
+.embed-card iframe {
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+.embed-link-fallback {
+  padding: 20px 18px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+.embed-link-fallback a { color: var(--accent); }
+
+/* ── Energy portrait ───────────────────────────────────────────────────────── */
+.portrait-wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 60px -10px rgba(143, 244, 255, 0.12);
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+.portrait-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── Captions ──────────────────────────────────────────────────────────────── */
+.captions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.caption-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 20px 20px 16px;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s;
+}
+.caption-card:hover { border-color: var(--border); }
+.caption-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  margin-bottom: 14px;
+}
+.caption-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.copy-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.copy-btn:hover {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.copy-btn.copied {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Quotes ────────────────────────────────────────────────────────────────── */
+.quotes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+blockquote.quote-card {
+  border-left: 3px solid var(--quote-stripe);
+  padding: 4px 0 4px 24px;
+  position: relative;
+}
+.quote-mark {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 1;
+  color: rgba(143,244,255,0.15);
+  position: absolute;
+  top: -8px;
+  left: 18px;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+.quote-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(15px, 1.8vw, 17px);
+  line-height: 1.7;
+  color: var(--fg);
+  font-style: italic;
+}
+
+/* ── Resources grid ────────────────────────────────────────────────────────── */
+.resources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.resource-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 28px 24px;
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s;
+}
+.resource-card:hover { border-color: var(--border); }
+.resource-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+.resource-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.resource-desc {
+  font-size: 13px;
+  color: var(--fg-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+.resource-credit {
+  font-size: 11px;
+  color: var(--fg-dim);
+  font-style: italic;
+}
+
+/* ── About / Social ────────────────────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.social-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+}
+.social-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--fg-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.social-list a:hover { color: var(--accent); text-decoration: none; }
+.social-handle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.newsletter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+.newsletter-card p {
+  font-size: 14px;
+  color: var(--fg-muted);
+  margin-block: 8px 18px;
+  line-height: 1.6;
+}
+
+/* ── Playlist ──────────────────────────────────────────────────────────────── */
+.playlist-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+.playlist-label {
+  padding: 16px 20px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.playlist-label .eyebrow { margin: 0; }
+
+/* ── Review CTA ────────────────────────────────────────────────────────────── */
+.review-section {
+  padding-block: clamp(48px, 7vw, 80px);
+  text-align: center;
+}
+.review-inner {
+  max-width: 560px;
+  margin-inline: auto;
+}
+.review-section .eyebrow { margin-bottom: 16px; }
+.review-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 700;
+  color: var(--fg);
+  text-wrap: balance;
+  margin-bottom: 16px;
+}
+.review-body {
+  font-size: 15px;
+  color: var(--fg-muted);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border-soft);
+  padding-block: 28px;
+  position: relative;
+  z-index: 1;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+}
+.footer-brand span { color: rgba(143,244,255,0.4); }
+.footer-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--fg-muted); }
+
+/* ── Subnav ─────────────────────────────────────────────────────────────────── */
+.subnav {
+  position: sticky;
+  top: 53px; /* below main nav */
+  z-index: 9;
+  background: rgba(7,10,12,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.subnav::-webkit-scrollbar { display: none; }
+.subnav-inner {
+  display: flex;
+  gap: 0;
+  max-width: 960px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 48px);
+}
+.subnav-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  text-decoration: none;
+  padding: 12px 16px;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  border-bottom: 2px solid transparent;
+  display: block;
+}
+.subnav-link:hover { color: var(--fg-muted); text-decoration: none; border-bottom-color: var(--border); }
+.subnav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Artwork featured card ──────────────────────────────────────────────────── */
+.artwork-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.artwork-card:hover { border-color: var(--border); }
+.artwork-img {
+  width: clamp(100px, 15vw, 160px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+.artwork-img-placeholder {
+  width: clamp(100px, 15vw, 160px);
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--bg2) 0%, rgba(143,244,255,0.06) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 28px; color: var(--fg-dim);
+  flex-shrink: 0;
+}
+.artwork-info {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.artwork-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; color: var(--fg);
+}
+.artwork-subtitle {
+  font-size: 13px; color: var(--fg-muted); line-height: 1.5; margin-bottom: 8px;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-photo { width: 120px; order: -1; }
+  .listen-grid { grid-template-columns: 1fr; }
+  .resources-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+  .artwork-card { grid-template-columns: 1fr; }
+  .artwork-img, .artwork-img-placeholder { width: 100%; aspect-ratio: 16/7; border-radius: 0; }
+  .subnav-link { padding: 10px 12px; font-size: 9px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="https://www.thelifeshiftpodcast.com" class="nav-brand">THE LIFE <span>SHIFT</span></a>
+    <span class="nav-episode">S5 · E289</span>
+  </div>
+</nav>
+
+<!-- Subnav -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a class="subnav-link" href="#listen">Listen</a>
+    <a class="subnav-link" href="#portrait">Energy Portrait</a>
+    <a class="subnav-link" href="#captions">Captions</a>
+    <a class="subnav-link" href="#quotes">Quotes</a>
+    <a class="subnav-link" href="#downloads">Downloads</a>
+    <a class="subnav-link" href="#connect">Connect</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">The Life Shift · Private Resource Page</p>
+      <h1 class="hero-name">Chloe Kelly</h1>
+      <p class="hero-title">Living in the Wrong Suit: The 45-Year Road to Becoming Yourself</p>
+      <p class="hero-desc">Thank you for sharing your story. This page has everything you need to share this episode with your audience: listen links, captions, quotes and all your digital assets.</p>
+      <div class="hero-ctas">
+        <a href="https://podcasts.apple.com/us/podcast/coming-out-as-a-trans-woman-at-45-the-filter/id1613618660?i=1000793642327" target="_blank" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm.5 5v6.5l5.25 3.15-.75 1.3L11 15V7h1.5z"/></svg>
+          Apple Podcasts
+        </a>
+        <a href="https://open.spotify.com/episode/1TuPFPDsvWk7xh4rkmI6Vs" target="_blank" class="btn btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.856.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 01-.277-1.215c3.809-.87 7.076-.496 9.712 1.116a.622.622 0 01.206.856zm1.223-2.723a.778.778 0 01-1.07.257c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 01-.966-.519.777.777 0 01.519-.966c3.632-1.102 8.147-.568 11.225 1.324a.778.778 0 01.257 1.07zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.934.934 0 11-.543-1.788c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 01-.954 1.606z"/></svg>
+          Spotify
+        </a>
+        <a href="https://www.youtube.com/watch?v=cEgLWrpQ_Ew" target="_blank" class="btn btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="headshot-chloe-kelly.jpg" alt="Chloe Kelly" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'hero-photo-placeholder',textContent:'CK'}))">
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Listen Section -->
+<section class="section" id="listen">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Listen</p>
+      <h2 class="section-title">Your episode is live</h2>
+    </div>
+    <div class="listen-grid">
+      <div class="embed-card">
+        <div class="embed-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm.5 5v6.5l5.25 3.15-.75 1.3L11 15V7h1.5z"/></svg>
+          Apple Podcasts
+        </div>
+        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="175" style="overflow:hidden;border-radius:0" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.podcasts.apple.com/us/podcast/coming-out-as-a-trans-woman-at-45-the-filter/id1613618660?i=1000793642327"></iframe>
+      </div>
+      <div class="embed-card">
+        <div class="embed-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.856.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 01-.277-1.215c3.809-.87 7.076-.496 9.712 1.116a.622.622 0 01.206.856zm1.223-2.723a.778.778 0 01-1.07.257c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 01-.966-.519.777.777 0 01.519-.966c3.632-1.102 8.147-.568 11.225 1.324a.778.778 0 01.257 1.07zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.934.934 0 11-.543-1.788c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 01-.954 1.606z"/></svg>
+          Spotify
+        </div>
+        <iframe style="border-radius:0" src="https://open.spotify.com/embed/episode/1TuPFPDsvWk7xh4rkmI6Vs?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Energy Portrait -->
+<section class="section" id="portrait">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Energy Portrait</p>
+      <h2 class="section-title">Your story, visualized</h2>
+    </div>
+    <div class="portrait-wrapper">
+      <iframe src="https://mattgilhooly.github.io/life-shift-portraits/energy-portrait-chloe.html" title="Chloe Kelly Energy Portrait" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Captions -->
+<section class="section" id="captions">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Social Media</p>
+      <h2 class="section-title">Ready to share</h2>
+    </div>
+    <div class="captions-list" id="captions-list">
+      <!-- filled by script -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Quotes -->
+<section class="section" id="quotes">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">From Your Conversation</p>
+      <h2 class="section-title">Your words</h2>
+    </div>
+    <div class="quotes-list" id="quotes-list">
+      <!-- filled by script -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Resources -->
+<section class="section" id="downloads">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Downloads</p>
+      <h2 class="section-title">Your assets</h2>
+    </div>
+    <!-- Artwork card (rendered by script from EPISODE.artwork) -->
+    <div id="artwork-card-container"></div>
+
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-icon">🎙️</div>
+        <div class="resource-title">Audio File</div>
+        <div class="resource-desc">Your episode audio, ready to use in reels, clips, or wherever you need it.</div>
+        <p class="resource-credit">Please credit Matt Gilhooly and The Life Shift if audio is used in other assets.</p>
+        <a href="https://www.dropbox.com/scl/fi/mg1vu6yfviw5kgqeeizu7/Chloe-Kelly.mp3?rlkey=9tfsx3fhklquzedj7jxf9d8rp&dl=1" class="btn btn-ghost" style="width:fit-content;margin-top:4px">Download MP3</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-icon">🖼️</div>
+        <div class="resource-title">Digital Assets</div>
+        <div class="resource-desc">Episode images and graphics, including cover art, square crops, and everything you need for social posts.</div>
+        <a href="https://www.dropbox.com/scl/fo/grdmowzmu5swz3mlohkcf/AFizdtFk7NQWndkcQKgJfaI?rlkey=mpprig640c3gkhcgrqgrlv36j&dl=0" target="_blank" rel="noopener" class="btn btn-ghost" style="width:fit-content;margin-top:4px">Open Folder</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- About the Show -->
+<section class="section" id="connect">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px">The Life Shift Podcast</p>
+        <h2 class="section-title" style="margin-bottom:16px">Find me everywhere</h2>
+        <p style="font-size:14px;color:var(--fg-muted);line-height:1.7;max-width:44ch;margin-bottom:24px">Stories about the moments that change everything. New episodes every week.</p>
+        <ul class="social-list">
+          <li><a href="https://www.instagram.com/thelifeshiftpodcast" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg><span class="social-handle">@thelifeshiftpodcast</span></a></li>
+          <li><a href="https://www.youtube.com/@thelifeshiftpodcast" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="social-handle">@thelifeshiftpodcast</span></a></li>
+          <li><a href="https://www.facebook.com/thelifeshiftpodcast" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span class="social-handle">@thelifeshiftpodcast</span></a></li>
+          <li><a href="https://x.com/thelifeshiftpod" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="social-handle">@thelifeshiftpod</span></a></li>
+          <li><a href="https://www.linkedin.com/company/thelifeshiftpodcast/" target="_blank"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span class="social-handle">Matt Gilhooly</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="newsletter-card">
+          <p class="eyebrow">Newsletter</p>
+          <p>The Life Shift newsletter with stories, reflections, and what's coming next. For listeners who want to go a little deeper.</p>
+          <a href="https://thelifeshiftpodcast.beehiiv.com/" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center">Subscribe Free</a>
+        </div>
+        <div style="margin-top:16px">
+          <div class="playlist-card">
+            <div class="playlist-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent)"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.856.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 01-.277-1.215c3.809-.87 7.076-.496 9.712 1.116a.622.622 0 01.206.856zm1.223-2.723a.778.778 0 01-1.07.257c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 01-.966-.519.777.777 0 01.519-.966c3.632-1.102 8.147-.568 11.225 1.324a.778.778 0 01.257 1.07zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.934.934 0 11-.543-1.788c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 01-.954 1.606z"/></svg>
+              <span class="eyebrow">Episode Playlist</span>
+            </div>
+            <iframe style="border-radius:0" src="https://open.spotify.com/embed/playlist/60yGHwHm9yaZtpfY8v7yud?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Review CTA -->
+<section class="review-section">
+  <div class="container">
+    <div class="review-inner">
+      <p class="eyebrow">One small ask</p>
+      <h2 class="review-title">Leave a review on Apple Podcasts</h2>
+      <p class="review-body">If our conversation meant something to you, a quick review helps The Life Shift reach the people who need it most. It takes about two minutes and makes a real difference.</p>
+      <a href="https://podcasts.apple.com/us/podcast/the-life-shift/id1613618660" target="_blank" class="btn btn-primary" style="font-size:15px;padding:13px 30px">Leave a Review</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container footer-inner">
+    <span class="footer-brand">THE LIFE <span>SHIFT</span></span>
+    <ul class="footer-links">
+      <li><a href="https://www.thelifeshiftpodcast.com" target="_blank">Website</a></li>
+      <li><a href="https://www.thelifeshiftpodcast.com/chloe-kelly" target="_blank">Episode Page</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+const EPISODE = {
+  guest: "Chloe Kelly",
+  artwork: "artwork-chloe-kelly.jpg",
+  captions: [
+      "I spent 35 years being very good at not being myself. I played the sport I didn't love. I said the things that got the right reaction. I earned all the man points. And underneath all of it, a quiet dripping tap I couldn't turn off. Then at 45, on a lunch break, I pressed a button on a face filter app and couldn't look away from what I saw. I shared the whole story, including the part where I ended up in a Kazakhstan spa in my underwear with a fully dressed manager asking for my passport, on The Life Shift Podcast with Matt Gilhooly. Listen at https://www.thelifeshiftpodcast.com/s5e289?utm_source=guest&utm_medium=referral&utm_campaign=ep289",
+      "I used to go to bed hoping I wouldn't wake up the next day. I thought I was just a grumpy teenager. I didn't know there was another version of me that would end up getting joy tattooed on her back in Buenos Aires, giggling at how beautiful the world is. The conversation that connects those two versions of me is now live on The Life Shift Podcast. Matt is a wonderful listener and this was one of the most honest conversations I've had about all of it. Listen at https://www.thelifeshiftpodcast.com/s5e289?utm_source=guest&utm_medium=referral&utm_campaign=ep289",
+      "When I told my wife that I was trans, I didn't know if she would throw me out, laugh at me, or something else entirely. She was shocked and then she was incredibly kind. We are best friends now, like sisters. We both loved each other deeply and we both needed things the other couldn't give. I hold that without trying to make it simpler than it was. It's all in this conversation on The Life Shift Podcast. Listen at https://www.thelifeshiftpodcast.com/s5e289?utm_source=guest&utm_medium=referral&utm_campaign=ep289",
+      "Trans women who transition later in life sometimes get asked why they didn't do it sooner. If you could have, you would have. For me, I needed to be economically stable, in a stable relationship, and strong enough to do it. And maybe I wasn't able to do it at 29 or 39. But I'm doing it now, traveling through the world as myself, writing about it, and trying to help anyone who might be where I was. I talked about all of this on The Life Shift Podcast. Listen at https://www.thelifeshiftpodcast.com/s5e289?utm_source=guest&utm_medium=referral&utm_campaign=ep289",
+      "People sometimes say the trans experience must be so unique it's hard to relate to. But when Matt and I talked on The Life Shift Podcast, what surprised me was how many moments felt completely universal. Performing for other people. Chasing the next thing that was supposed to make you happy. Not knowing why you felt so heavy all the time. The specific circumstance was mine. The feeling of carrying something you can't name for too long, I think a lot of people know that. Listen at https://www.thelifeshiftpodcast.com/s5e289?utm_source=guest&utm_medium=referral&utm_campaign=ep289"
+  ],
+  quotes: [
+      "It feels very much like I'm not in prison. I don't have to live in that box. The male persona I created was almost like an Iron Man suit to keep me safe. But I ended up getting locked, like the little girl got locked inside that suit and the suit's protocol was to protect the girl inside, but it was like completely out of control. Like as in the girl was just getting crushed. But now I feel relieved and I live with joy.",
+      "It was like watching the television and there's nothing on and I just want to switch it off. That's how it kind of felt. That was my sort of suicidal thinking. Even though I had like a lovely house, good job, nice holidays and this beautiful, amazing, kind, caring, wonderful partner, it was just like, is a bit shit.",
+      "I pressed the button and there was the female representation of me that I could still see it was me, but female. And it was like, you know, in Jaws when Spielberg does that sort of zoom in and then pulls the thing away, like it felt like that, like blood rushed to my face. And I went into the cubicles in the toilet and work and did it like about and put more and more photos in it. Must have done it at least 50 times.",
+      "The more people I told, this shameful secret I'd had my whole life just completely started losing power. And it was like the one thing I probably was most anxious about ever that people would find out the secret. And as soon as I started telling people and releasing it, it was taking shackles off. It felt bloody brilliant.",
+      "I just felt like I was wasting away or I was wasting my time. So I handed my notice in. I wrote a book, a trans romance, like a rom-com. I've sent it to a lot of literary agents. Most of them have ignored me. And then I went traveling in September last year on my own. So I did 18 cities in 21 days by train. I call that the sort of appetizer."
+  ]
+};
+
+// Render artwork card
+const artworkContainer = document.getElementById('artwork-card-container');
+if (EPISODE.artwork) {
+  artworkContainer.innerHTML = `
+    <div class="artwork-card">
+      <img class="artwork-img" src="${EPISODE.artwork}" alt="${EPISODE.guest} episode cover art" loading="lazy">
+      <div class="artwork-info">
+        <div class="artwork-title">Episode Cover Art</div>
+        <div class="artwork-subtitle">The official cover art for this episode, sized for all podcast platforms and social media.</div>
+        <a href="${EPISODE.artwork}" target="_blank" rel="noopener" class="btn btn-ghost" style="width:fit-content">Download Artwork</a>
+      </div>
+    </div>
+  `;
+} else {
+  artworkContainer.innerHTML = `
+    <div class="artwork-card">
+      <div class="artwork-img-placeholder">🎨</div>
+      <div class="artwork-info">
+        <div class="artwork-title">Episode Cover Art</div>
+        <div class="artwork-subtitle">Cover art URL not yet set. Add it to the <code>EPISODE.artwork</code> field in the page source.</div>
+      </div>
+    </div>
+  `;
+}
+
+// Strip UTM params from any URLs in caption text
+const cleanCaption = t => t.replace(/https?:\/\/[^\s]+/g, url => {
+  try { const u = new URL(url); u.search = ''; return u.toString(); } catch { return url; }
+});
+
+// Render captions
+const captionsEl = document.getElementById('captions-list');
+EPISODE.captions.forEach((text, i) => {
+  const clean = cleanCaption(text);
+  const card = document.createElement('div');
+  card.className = 'caption-card';
+  card.innerHTML = `
+    <p class="caption-text">${clean.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+    <div class="caption-actions">
+      <button class="copy-btn" data-index="${i}">Copy</button>
+    </div>
+  `;
+  captionsEl.appendChild(card);
+});
+
+// Render quotes
+const quotesEl = document.getElementById('quotes-list');
+EPISODE.quotes.forEach(text => {
+  const q = document.createElement('blockquote');
+  q.className = 'quote-card';
+  q.innerHTML = `<span class="quote-mark" aria-hidden="true">"</span><p class="quote-text">"${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</p>`;
+  quotesEl.appendChild(q);
+});
+
+// Subnav active state on scroll
+const subnavLinks = document.querySelectorAll('.subnav-link');
+const sections = Array.from(subnavLinks).map(l => document.querySelector(l.getAttribute('href')));
+const onScroll = () => {
+  const y = window.scrollY + 120;
+  let active = 0;
+  sections.forEach((s, i) => { if (s && s.offsetTop <= y) active = i; });
+  subnavLinks.forEach((l, i) => l.classList.toggle('active', i === active));
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Copy buttons
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.copy-btn');
+  if (!btn) return;
+  const idx = parseInt(btn.dataset.index);
+  const text = cleanCaption(EPISODE.captions[idx]);
+  try {
+    await navigator.clipboard.writeText(text);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  } catch {
+    // Fallback: select text
+    const range = document.createRange();
+    range.selectNodeContents(btn.closest('.caption-card').querySelector('.caption-text'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  }
+});
+</script>
+
+</body>
+</html>
